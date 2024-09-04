@@ -29,7 +29,7 @@ function rect(matrix, x, y, height, width, val) {
     }
 }
 
-function rectFill(matrix, x, y, width, height, val) {
+function rectFill(matrix, x, y, height, width, val) {
     if (matrix instanceof Matrix) {
         for (let i = y; i < height + y; i++) {
             for (let j = x; j < width + x; j++) {
@@ -39,9 +39,26 @@ function rectFill(matrix, x, y, width, height, val) {
     }
 }
 
+function render(matrix, charset = null) {
+    if (matrix instanceof Matrix) {
+        var mf = matrix.matrix.flat(2).join('')
+        var _ = ''
+        for (let i = 0; i < mf.length; i++) {
+            _ +=
+                charset
+                ? charset[parseInt(mf[i])]
+                : mf[i]
+            if ((i + 1) % matrix.width === 0 && i !== mf.length) _ += '\n'
+        }
+
+        return _
+    }
+}
+
 module.exports = {
     border,
     fill,
     rect,
-    rectFill
+    rectFill,
+    render
 }
