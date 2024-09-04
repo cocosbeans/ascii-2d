@@ -55,10 +55,15 @@ function render(matrix, charset = null) {
     }
 }
 
+function rep(char, charset) {
+    return charset.indexOf(char)
+}
+
 module.exports = {
     border,
     fill,
     rect,
     rectFill,
-    render
+    render,
+    rep
 }
