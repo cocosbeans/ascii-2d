@@ -1,23 +1,21 @@
-const { Matrix } = require('./matrix.js')
-const { 
-    border,
-    fill,
-    rect,
-    rectFill,
-    render
-} = require('./draw.js')
+const { Draw } = require('./draw.js')
+const { Screen } = require('./screen.js')
+
+const screen = new Screen(9, 3)
+const draw = new Draw({autorefresh: true})
 
 const charset = [
-    '.', '@',
-    '/', '#',
-    '|', '-',
-    '+', '='
+    '.',
+    '▮',
+    '#',
+    '-',
+    '|'
 ]
 
-let map = new Matrix(40, 10)
+screen.grab_charset(charset)
+screen.build()
 
-border(map, 3)
-rectFill(map, 4, 3, 20, 3, 2)
+draw.refresh(screen)
+draw.rect_fill(screen, 1, 1, 4, 3, 2)
 
-//console.log(map.matrix)
-console.log(render(map, charset))
+console.log(screen.rendered)
