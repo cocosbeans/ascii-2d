@@ -1,21 +1,12 @@
+const { Matrix } = require('./matrix.js')
 const { Draw } = require('./draw.js')
-const { Screen } = require('./screen.js')
 
-const screen = new Screen(9, 3)
-const draw = new Draw({autorefresh: true})
+const charset = ' abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789!@#$%^&*()_+-=[]{};\':",./<>?\\|`'.split('')
 
-const charset = [
-    '.',
-    '▮',
-    '#',
-    '-',
-    '|'
-]
+let map = new Draw(160, 30)
 
-screen.grab_charset(charset)
-screen.build()
+map.border(charset.indexOf('#'))
+//map.rectFill()
 
-draw.refresh(screen)
-draw.rect_fill(screen, 1, 1, 4, 3, 2)
-
-console.log(screen.rendered)
+//console.log(map.matrix)
+console.log(map.render(charset))

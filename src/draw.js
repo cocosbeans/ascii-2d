@@ -1,32 +1,53 @@
-class Draw {
-    constructor(options = { autorefresh: false }) {
-        this.autorefresh = options.autorefresh
+const { Matrix } = require('./matrix.js')
+
+class Draw extends Matrix {
+    border(val) {
+        this.setRow(0, val)
+        this.setCol(0, val)
+        this.setRow(this.height - 1, val)
+        this.setCol(this.width - 1, val)
     }
 
-    border(screen, val) {
-        this.rect(screen, 1, 1, screen.width, screen.height, val)
-
-        if (this.autorefresh) this.refresh(screen)
+    fill(val) {
+        for (let i = 0; i < this.height; i++) {
+            this.setRow(i, val)
+        }
     }
 
-    rect(screen, x, y, width, height, val) {
-        
-
-        if (this.autorefresh) this.refresh(screen)
-    }
-
-    rect_fill(screen, x, y, width, height, val) {
-        for (let i = 0; i < height; i++) {
-            for (let j = 0; j < x + width; j++) {
-                if (j >= x) screen.set_cell(j, y + i, val)
+    rect(x, y, height, width, val) {
+        //Zero clue why this works, good luck reverse engineers
+        for (let i = y; i <= y + height - 1; i++) {
+            for (let j = x; j <= x + width - 1; j++) {
+                if (i === y || i === y + height - 1) this.set(j, i, val)
+                if (j === x || j === x + width - 1) this.set(j, i, val)
             }
         }
-
-        if (this.autorefresh) this.refresh(screen)
     }
 
-    refresh(screen) {
-        screen.render()
+    rectFill(x, y, height, width, val) {
+        for (let i = y; i < height + y; i++) {
+            for (let j = x; j < width + x; j++) {
+                this.set(j, i, val)
+            }
+        }
+    }
+
+    render(charset = null) {
+        var mf = this.matrix.flat()
+        var _ = ''
+        for (let i = 0; i < mf.length; i++) {
+            _ +=
+                charset
+                ? charset[parseInt(mf[i])]
+                : mf[i]
+            if ((i + 1) % this.width === 0 && i !== mf.length) _ += '\n'
+        }
+
+        return _
+    }
+
+    rep(char, charset) {
+        return charset.indexOf(char)
     }
 }
 

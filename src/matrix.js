@@ -85,9 +85,11 @@ class Matrix {
         else {
             var _ = []
             for (let i = 0; i < this.width; i++) _.push(val)
-                this.matrix[row] = _
+            this.matrix[row] = _
         }
     }
 }
+
+
 
 module.exports = { Matrix }
